@@ -1,18 +1,15 @@
-import {StatusBar} from "expo-status-bar"
 import React from "react"
-// import {StyleSheet, Text, View} from "react-native"
 import {NavigationContainer} from "@react-navigation/native"
-// import AppNavigator from "./app/navigation/AppNavigator"
-// import WelcomeScreen from "./app/screens/WelcomeScreen"
-// import {createStackNavigator} from "@react-navigation/stack"
 import AuthNavigator from "./app/navigation/AuthNavigator"
-
-// const Stack = createStackNavigator()
+import store from "./app/redux/store"
+import {Provider} from "react-redux"
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <AuthNavigator />
-    </NavigationContainer>
+    <Provider store={store}>
+      <NavigationContainer>
+        <AuthNavigator />
+      </NavigationContainer>
+    </Provider>
   )
 }

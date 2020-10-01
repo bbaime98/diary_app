@@ -1,5 +1,7 @@
 import React, {useState, useEffect, Component} from "react"
-import {StyleSheet, Image, View, Text} from "react-native"
+import {connect} from "react-redux"
+import {loginAction} from "../redux/actions/loginAction"
+import {StyleSheet, Image, View, Text, Button} from "react-native"
 import Screen from "../component/shared/Screen"
 import colors from "../config/colors"
 import AppInputField from "../component/form/AppTextInput"
@@ -10,7 +12,19 @@ const validationSchema = Yup.object().shape({
   email: Yup.string().required().email().label("Email"),
   password: Yup.string().required().min(5).label("Password"),
 })
-const LoginScreen = () => {
+const LoginScreen = (props) => {
+  useEffect(() => {
+    const {data, error} = props
+    console.log("______USEFFECT", data)
+  }, [props.loginReducer])
+  const loginUser = async () => {
+    const user = {
+      email: "email@domain.com",
+      password: "Bien@BAR789",
+    }
+    await props.loginAction(user)
+    console.log("______****")
+  }
   return (
     <Screen style={styles.container}>
       <Text style={styles.title}>LOGIN</Text>
@@ -31,7 +45,8 @@ const LoginScreen = () => {
           textContentType="password"
           name="password"
         />
-        <AppButton title="Login" color="primary" />
+        {/* <Button onPress={loginUser} title="login" /> */}
+        <AppButton title="Login" color="primary" onPress={loginUser} />
       </View>
     </Screen>
   )
@@ -70,4 +85,11 @@ const styles = StyleSheet.create({
   },
 })
 
-export default LoginScreen
+const mapStateToProps = ({loginReducer}) => {
+  return loginReducer
+}
+
+const mapDispatchToProps = {
+  loginAction,
+}
+export default connect(mapStateToProps, mapDispatchToProps)(LoginScreen)
