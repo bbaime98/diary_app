@@ -17,7 +17,6 @@ export default AppButton
 
 const styles = StyleSheet.create({
   button: {
-    // backgroundColor: colors.primary,
     borderRadius: 3,
     justifyContent: "center",
     alignItems: "center",
@@ -26,7 +25,6 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   text: {
-    // color: colors.white,
     fontSize: 18,
     textTransform: "uppercase",
     fontWeight: "bold",

@@ -10,6 +10,7 @@ import {
 import Screen from "../component/shared/Screen"
 import Swiper from "react-native-swiper"
 import colors from "../config/colors"
+import AppButton from "../component/shared/AppButton"
 
 const {width, height} = Dimensions.get("window")
 class OnboardingScreen extends Component {
@@ -46,6 +47,15 @@ class OnboardingScreen extends Component {
             <Text style={styles.subtitle}>Memories last forever</Text>
           </View>
         </View>
+
+        <View style={styles.buttonsContainer}>
+          <View style={styles.sinupContainer}>
+            <AppButton title="SIGNUP" backgroundColor="white" color="primary" />
+          </View>
+          <View style={styles.loginContainer}>
+            <AppButton title="LOGIN" backgroundColor="primary" color="white" />
+          </View>
+        </View>
       </Screen>
     )
   }
@@ -54,6 +64,23 @@ class OnboardingScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  buttonsContainer: {
+    position: "absolute",
+    flexDirection: "row",
+    width: 370,
+    // left: 10,
+    bottom: 40,
+    justifyContent: "space-evenly",
+    alignItems: "center",
+  },
+  sinupContainer: {
+    width: 150,
+    alignItems: "center",
+  },
+  loginContainer: {
+    width: 150,
+    alignItems: "center",
   },
   slide: {
     flex: 1,
@@ -79,7 +106,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 6,
-    opacity: 0.7,
+    opacity: 0.9,
   },
   title: {
     fontSize: 40,
@@ -88,16 +115,15 @@ const styles = StyleSheet.create({
   subTitleContainer: {
     width: 200,
     height: 50,
-    backgroundColor: colors.white,
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 6,
     // alignSelf: "flex-end",
-    opacity: 0.8,
   },
   subtitle: {
     fontSize: 20,
-    color: colors.primary,
+    color: colors.white,
+    fontWeight: "bold",
   },
 })
 
