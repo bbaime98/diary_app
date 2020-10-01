@@ -7,46 +7,75 @@ import colors from "../config/colors"
 import AppInputField from "../component/form/AppTextInput"
 import * as Yup from "yup"
 import AppButton from "../component/shared/AppButton"
+import AppForm from "../component/form/AppForm"
+import {Formik} from "formik"
+import ErrorMessage from "../component/form/ErrorMessage"
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().required().email().label("Email"),
   password: Yup.string().required().min(5).label("Password"),
 })
 const LoginScreen = (props) => {
-  useEffect(() => {
-    const {data, error} = props
-    console.log("______USEFFECT", data)
-  }, [props.loginReducer])
-  const loginUser = async () => {
-    const user = {
-      email: "email@domain.com",
-      password: "Bien@BAR789",
-    }
-    await props.loginAction(user)
-    console.log("______****")
-  }
+  // useEffect(() => {
+  //   const {data, error} = props
+  //   console.log("______USEFFECT", data)
+  // }, [props.loginReducer])
+  // const loginUser = async () => {
+  //   const user = {
+  //     email: "email@domain.com",
+  //     password: "Bien@BAR789",
+  //   }
+  //   await props.loginAction(user)
+  //   console.log("______****")
+  // }
   return (
     <Screen style={styles.container}>
       <Text style={styles.title}>LOGIN</Text>
       <View style={styles.formConatiner}>
-        <AppInputField
-          placeholder="Email"
-          icon="email-outline"
-          keyboardType="email-address"
-          textContentType="emailAddress"
-          autoCapitalize="none"
-        />
-        <AppInputField
-          autoCapitalize="none"
-          autoCorrect={false}
-          icon="lock-outline"
-          placeholder="Password"
-          secureTextEntry
-          textContentType="password"
-          name="password"
-        />
-        {/* <Button onPress={loginUser} title="login" /> */}
-        <AppButton title="Login" color="primary" onPress={loginUser} />
+        <Formik
+          initialValues={{email: "", password: ""}}
+          onSubmit={(values) => console.log("VALUES>>>>>>>>", values)}
+          validationSchema={validationSchema}
+        >
+          {({handleChange, handleSubmit, errors, setFieldTouched, touched}) => (
+            <>
+              <AppInputField
+                placeholder="Email"
+                icon="email-outline"
+                keyboardType="email-address"
+                textContentType="emailAddress"
+                autoCapitalize="none"
+                name="email"
+                onChangeText={handleChange("email")}
+                onBlur={() => setFieldTouched("email")}
+              />
+              <ErrorMessage error={errors.email} visible={touched.email} />
+              <AppInputField
+                autoCapitalize="none"
+                autoCorrect={false}
+                icon="lock-outline"
+                placeholder="Password"
+                secureTextEntry
+                textContentType="password"
+                name="password"
+                onChangeText={handleChange("password")}
+                onBlur={() => setFieldTouched("password")}
+              />
+              <ErrorMessage
+                error={errors.password}
+                visible={touched.password}
+              />
+
+              {/* <Button onPress={loginUser} title="login" /> */}
+              <AppButton
+                title="Login"
+                color="white"
+                backgroundColor="secondary"
+                onPress={handleSubmit}
+              />
+            </>
+          )}
+        </Formik>
       </View>
     </Screen>
   )
@@ -61,7 +90,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
     alignSelf: "center",
     borderRadius: 5,
-    height: 250,
+    height: 300,
     padding: 10,
     paddingTop: 25,
     width: "80%",
