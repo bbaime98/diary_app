@@ -1,7 +1,5 @@
 import React from "react"
 import {StyleSheet, View, StatusBar} from "react-native"
-// import Constants from "expo-constants"
-// import colors from "../../config/colors"
 
 export default function Screen({children, style}) {
   return (

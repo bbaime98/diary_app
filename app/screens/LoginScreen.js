@@ -13,32 +13,25 @@ const validationSchema = Yup.object().shape({
 const LoginScreen = () => {
   return (
     <Screen style={styles.container}>
-      <View style={styles.bluePart}>
-        <Text style={styles.title}>LOGIN</Text>
-        <View style={styles.formConatiner}>
-          <AppInputField
-            placeholder="Email"
-            icon="email"
-            keyboardType="email-address"
-            textContentType="emailAddress"
-            autoCapitalize="none"
-          />
-          <AppInputField
-            autoCapitalize="none"
-            autoCorrect={false}
-            icon="lock"
-            placeholder="Password"
-            secureTextEntry
-            textContentType="password"
-            name="password"
-          />
-          <AppButton title="Login" color="white" backgroundColor="primary" />
-          <AppButton title="Google" color="primary" backgroundColor="white" />
-        </View>
-        <View style={styles.optionsConatiner}>
-          <Text style={styles.optionItem}>Forget Password?</Text>
-          <Text style={styles.optionItem}>Create an Account</Text>
-        </View>
+      <Text style={styles.title}>LOGIN</Text>
+      <View style={styles.formConatiner}>
+        <AppInputField
+          placeholder="Email"
+          icon="email-outline"
+          keyboardType="email-address"
+          textContentType="emailAddress"
+          autoCapitalize="none"
+        />
+        <AppInputField
+          autoCapitalize="none"
+          autoCorrect={false}
+          icon="lock-outline"
+          placeholder="Password"
+          secureTextEntry
+          textContentType="password"
+          name="password"
+        />
+        <AppButton title="Login" color="primary" />
       </View>
     </Screen>
   )
@@ -46,44 +39,34 @@ const LoginScreen = () => {
 
 const styles = StyleSheet.create({
   container: {
-    // padding: 10,
-  },
-  bluePart: {
-    flex: 0.5,
     backgroundColor: colors.primary,
+    // padding: 10,
   },
   formConatiner: {
     backgroundColor: colors.white,
     alignSelf: "center",
     borderRadius: 5,
-    height: 310,
+    height: 250,
     padding: 10,
+    paddingTop: 25,
     width: "80%",
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
       height: 4,
     },
-    shadowOpacity: 0.3,
-    shadowRadius: 4.65,
-    elevation: 8,
-  },
-  optionsConatiner: {
-    marginLeft: 35,
-    marginTop: 10,
-  },
-  optionItem: {
-    fontSize: 18,
-    padding: 10,
-    color: colors.primary,
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
+    elevation: 2,
+    marginVertical: 20,
   },
   title: {
     alignSelf: "center",
-    marginTop: 20,
+    marginTop: 60,
     marginBottom: 20,
-    color: colors.secondary,
-    fontWeight: "bold",
-    fontSize: 45,
+    color: colors.white,
+    // fontWeight: "bold",
+    fontSize: 30,
   },
 })
 
