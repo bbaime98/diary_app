@@ -12,7 +12,7 @@ function AppTextInput({icon, ...otherProps}) {
           name={icon}
           style={styles.icon}
           size={25}
-          color={colors.medium}
+          color={colors.primary}
         />
       )}
       <TextInput style={defaultStyles.text} {...otherProps} />

@@ -15,6 +15,7 @@ import AppButton from "../component/shared/AppButton"
 const {width, height} = Dimensions.get("window")
 class OnboardingScreen extends Component {
   render() {
+    const {navigation} = this.props
     return (
       <Screen>
         <Swiper autoplay={true}>
@@ -53,7 +54,12 @@ class OnboardingScreen extends Component {
             <AppButton title="SIGNUP" backgroundColor="white" color="primary" />
           </View>
           <View style={styles.loginContainer}>
-            <AppButton title="LOGIN" backgroundColor="primary" color="white" />
+            <AppButton
+              title="LOGIN"
+              backgroundColor="primary"
+              color="white"
+              onPress={() => navigation.navigate("Login")}
+            />
           </View>
         </View>
       </Screen>
