@@ -7,7 +7,6 @@ import colors from "../config/colors"
 import AppInputField from "../component/form/AppTextInput"
 import * as Yup from "yup"
 import AppButton from "../component/shared/AppButton"
-import AppForm from "../component/form/AppForm"
 import {Formik} from "formik"
 import ErrorMessage from "../component/form/ErrorMessage"
 
@@ -16,29 +15,43 @@ const validationSchema = Yup.object().shape({
   password: Yup.string().required().min(5).label("Password"),
 })
 const LoginScreen = (props) => {
+  const [loginError, setLoginError] = useState(null)
+  const [loginFailed, setLoginFailed] = useState(false)
   // useEffect(() => {
   //   const {data, error} = props
-  //   console.log("______USEFFECT", data)
-  // }, [props.loginReducer])
-  // const loginUser = async () => {
-  //   const user = {
-  //     email: "email@domain.com",
-  //     password: "Bien@BAR789",
+  //   console.log("______USE ERRORR", error)
+  //   if (data) {
+  //     console.log("______USEFFECT", data.email)
+  //     setLoginError(data.email)
+  //   } else {
+  //     setLoginError(error)
   //   }
-  //   await props.loginAction(user)
-  //   console.log("______****")
-  // }
+  // }, [])
+  const handleLogin = async (values) => {
+    const {data, error} = props
+    const output = await props.loginAction(values)
+    if (output.type === "LOGIN_ERROR") {
+      setLoginFailed(true)
+    } else {
+      // go to the dashboard
+    }
+  }
   return (
     <Screen style={styles.container}>
       <Text style={styles.title}>LOGIN</Text>
       <View style={styles.formConatiner}>
         <Formik
           initialValues={{email: "", password: ""}}
-          onSubmit={(values) => console.log("VALUES>>>>>>>>", values)}
+          onSubmit={(values) => handleLogin(values)}
           validationSchema={validationSchema}
         >
           {({handleChange, handleSubmit, errors, setFieldTouched, touched}) => (
             <>
+              {/* {loginError && <Text style={styles.error}>{loginError}</Text>} */}
+              <ErrorMessage
+                error="Invalid email and/or password."
+                visible={loginFailed}
+              />
               <AppInputField
                 placeholder="Email"
                 icon="email-outline"
@@ -111,6 +124,9 @@ const styles = StyleSheet.create({
     color: colors.white,
     // fontWeight: "bold",
     fontSize: 30,
+  },
+  error: {
+    color: "red",
   },
 })
 
