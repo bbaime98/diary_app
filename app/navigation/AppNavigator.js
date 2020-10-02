@@ -1,42 +1,32 @@
-// import React from "react"
-// import {createBottomTabNavigator} from "@react-navigation/bottom-tabs"
-// import {MaterialCommunityIcons} from "@expo/vector-icons"
-// import UploadVideo from "../screens/UploadVideo"
-// import PlayVideoScreen from "../screens/PlayVideo"
-// import AccountNavigator from "./AccountNavigator"
+import React from "react"
+import {createBottomTabNavigator} from "@react-navigation/bottom-tabs"
+import {Entypo} from "@expo/vector-icons"
+import PostsScreen from "../screens/PostsScreen"
+import NewPostScreen from "../screens/NewPostScreen"
 
-// const Tab = createBottomTabNavigator()
+const Tab = createBottomTabNavigator()
 
-// const AppNavigator = () => (
-//   <Tab.Navigator>
-//     <Tab.Screen
-//       name="Home"
-//       component={PlayVideoScreen}
-//       options={{
-//         tabBarIcon: ({color, size}) => (
-//           <MaterialCommunityIcons name="home" color={color} size={size} />
-//         ),
-//       }}
-//     />
-//     <Tab.Screen
-//       name="New video"
-//       component={UploadVideo}
-//       options={{
-//         tabBarIcon: ({color, size}) => (
-//           <MaterialCommunityIcons name="camera" color={color} size={size} />
-//         ),
-//       }}
-//     />
-//     <Tab.Screen
-//       name="Account"
-//       component={AccountNavigator}
-//       options={{
-//         tabBarIcon: ({color, size}) => (
-//           <MaterialCommunityIcons name="account" color={color} size={size} />
-//         ),
-//       }}
-//     />
-//   </Tab.Navigator>
-// )
+const AppNavigator = () => (
+  <Tab.Navigator>
+    <Tab.Screen
+      name="Posts"
+      component={PostsScreen}
+      options={{
+        tabBarIcon: ({color, size}) => (
+          <Entypo name="newsletter" color={color} size={size} />
+        ),
+      }}
+    />
+    <Tab.Screen
+      name="New Post"
+      component={NewPostScreen}
+      options={{
+        tabBarIcon: ({color, size}) => (
+          <Entypo name="edit" color={color} size={size} />
+        ),
+      }}
+    />
+  </Tab.Navigator>
+)
 
-// export default AppNavigator
+export default AppNavigator
