@@ -1,11 +1,13 @@
-import React, {useEffect} from "react"
-import {NavigationContainer} from "@react-navigation/native"
+import React, { useEffect, useState } from "react"
+import { NavigationContainer } from "@react-navigation/native"
 import AuthNavigator from "./app/navigation/AuthNavigator"
+import TabNavigator from "./app/navigation/AppNavigator"
 import store from "./app/redux/store"
-import {Provider} from "react-redux"
+import { Provider } from "react-redux"
 import authStorage from "./app/utils/storage"
 
 export default function App() {
+  const [authToken, setAuthToken] = useState(null)
   useEffect(() => {
     restoreToken()
   }, [])
@@ -13,12 +15,12 @@ export default function App() {
   const restoreToken = async () => {
     const token = await authStorage.getToken()
     if (!token) return
-    console.log("GET TOKEN", token)
+    setAuthToken(token)
   }
   return (
     <Provider store={store}>
       <NavigationContainer>
-        <AuthNavigator />
+        {authToken ? <TabNavigator /> : <AuthNavigator />}
       </NavigationContainer>
     </Provider>
   )
