@@ -3,17 +3,22 @@ import {createBottomTabNavigator} from "@react-navigation/bottom-tabs"
 import {Entypo} from "@expo/vector-icons"
 import PostsScreen from "../screens/PostsScreen"
 import NewPostScreen from "../screens/NewPostScreen"
+import colors from "../config/colors"
 
 const Tab = createBottomTabNavigator()
 
 const AppNavigator = () => (
-  <Tab.Navigator>
+  <Tab.Navigator
+    tabBarOptions={{
+      activeTintColor: colors.primary,
+    }}
+  >
     <Tab.Screen
       name="Posts"
       component={PostsScreen}
       options={{
         tabBarIcon: ({color, size}) => (
-          <Entypo name="newsletter" color={color} size={size} />
+          <Entypo name="newsletter" color={colors.primary} size={size} />
         ),
       }}
     />
@@ -22,7 +27,7 @@ const AppNavigator = () => (
       component={NewPostScreen}
       options={{
         tabBarIcon: ({color, size}) => (
-          <Entypo name="edit" color={color} size={size} />
+          <Entypo name="edit" color={colors.primary} size={size} />
         ),
       }}
     />
