@@ -9,6 +9,7 @@ import * as Yup from "yup"
 import AppButton from "../component/shared/AppButton"
 import {Formik} from "formik"
 import ErrorMessage from "../component/form/ErrorMessage"
+import authStorage from "../utils/storage"
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().required().email().label("Email"),
@@ -30,9 +31,12 @@ const LoginScreen = (props) => {
   const handleLogin = async (values) => {
     const {data, error} = props
     const output = await props.loginAction(values)
+    console.log("DDDDATA++++++", data)
     if (output.type === "LOGIN_ERROR") {
       setLoginFailed(true)
     } else {
+      console.log("TOKEN++++++", output.payload.token)
+      authStorage.storeToken(output.payload.token)
       // go to the dashboard
     }
   }
@@ -83,7 +87,7 @@ const LoginScreen = (props) => {
               <AppButton
                 title="Login"
                 color="white"
-                backgroundColor="secondary"
+                backgroundColor="primary"
                 onPress={handleSubmit}
               />
             </>
