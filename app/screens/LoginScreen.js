@@ -1,6 +1,7 @@
 import React, {useState, useEffect, Component} from "react"
 import {connect} from "react-redux"
 import {loginAction} from "../redux/actions/loginAction"
+import {redirectUser} from "../redux/actions/redirectUser"
 import {StyleSheet, Image, View, Text, Button} from "react-native"
 import Screen from "../component/shared/Screen"
 import colors from "../config/colors"
@@ -32,13 +33,16 @@ const LoginScreen = (props) => {
     const {data, error, loginReducer} = props
     const output = await props.loginAction(values)
     console.log("DDDDATA++++++", data)
-    console.log("login reducer________", loginReducer)
+    // console.log("login reducer________", loginReducer)
     if (output.type === "LOGIN_ERROR") {
       setLoginFailed(true)
     } else {
-      authStorage.storeToken(output.payload.token)
-      // console.log("PROPS", props)
-      props.navigation.navigate("Welcome")
+      const {redirect, redirectUser} = props
+      await authStorage.storeToken(output.payload.token)
+      // console.log("++++++++++BEFORE", redirect)
+      redirectUser(true)
+      // console.log("AFTER+++++++++++", redirect)
+      // props.navigation.navigate("Welcome")
       // go to the dashboard
     }
   }
@@ -136,11 +140,12 @@ const styles = StyleSheet.create({
   },
 })
 
-const mapStateToProps = ({loginReducer}) => {
-  return loginReducer
+const mapStateToProps = ({loginReducer, redirect}) => {
+  return {loginReducer, redirect}
 }
 
 const mapDispatchToProps = {
   loginAction,
+  redirectUser,
 }
 export default connect(mapStateToProps, mapDispatchToProps)(LoginScreen)
