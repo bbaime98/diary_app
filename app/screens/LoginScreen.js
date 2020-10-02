@@ -19,8 +19,8 @@ const LoginScreen = (props) => {
   const [loginError, setLoginError] = useState(null)
   const [loginFailed, setLoginFailed] = useState(false)
   // useEffect(() => {
-  //   const {data, error} = props
-  //   console.log("______USE ERRORR", error)
+  //   const {loginReducer, data} = props
+  //   console.log("______USE ERRORR", loginReducer)
   //   if (data) {
   //     console.log("______USEFFECT", data.email)
   //     setLoginError(data.email)
@@ -29,14 +29,16 @@ const LoginScreen = (props) => {
   //   }
   // }, [])
   const handleLogin = async (values) => {
-    const {data, error} = props
+    const {data, error, loginReducer} = props
     const output = await props.loginAction(values)
     console.log("DDDDATA++++++", data)
+    console.log("login reducer________", loginReducer)
     if (output.type === "LOGIN_ERROR") {
       setLoginFailed(true)
     } else {
-      console.log("TOKEN++++++", output.payload.token)
       authStorage.storeToken(output.payload.token)
+      // console.log("PROPS", props)
+      props.navigation.navigate("Welcome")
       // go to the dashboard
     }
   }
