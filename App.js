@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react"
-import { NavigationContainer } from "@react-navigation/native"
+import React, {useEffect, useState} from "react"
+import {NavigationContainer} from "@react-navigation/native"
 import AuthNavigator from "./app/navigation/AuthNavigator"
 import TabNavigator from "./app/navigation/AppNavigator"
 import store from "./app/redux/store"
-import { Provider } from "react-redux"
+import {Provider} from "react-redux"
 import authStorage from "./app/utils/storage"
 
 export default function App() {
@@ -20,7 +20,8 @@ export default function App() {
   return (
     <Provider store={store}>
       <NavigationContainer>
-        {authToken ? <TabNavigator /> : <AuthNavigator />}
+        {/* {authToken ? <TabNavigator /> : <AuthNavigator />} */}
+        <TabNavigator />
       </NavigationContainer>
     </Provider>
   )
