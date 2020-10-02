@@ -5,7 +5,6 @@ import authStorage from "../../utils/storage"
 export const getPostsAction = () => async (dispatch) => {
   try {
     const token = await authStorage.getToken()
-
     const res = await axios.get(
       "https://mydiary-api-app.herokuapp.com/api/v2/entries",
       {headers: {token}}
