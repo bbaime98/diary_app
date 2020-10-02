@@ -12,6 +12,8 @@ export const loginAction = (user) => async (dispatch) => {
 
     return dispatch({type: LOGIN_SUCCESS, payload: data})
   } catch (error) {
-    return dispatch({type: LOGIN_ERROR, payload: error.response.data})
+    console.log("______ACTION ERRROR", error.response.data.error)
+
+    return dispatch({type: LOGIN_ERROR, payload: error.response.data.error})
   }
 }
