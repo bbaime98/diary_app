@@ -1,37 +1,32 @@
-import React from "react"
+import React, {useEffect, useState} from "react"
 import {StyleSheet, FlatList} from "react-native"
+import {connect} from "react-redux"
 import ListItem from "../component/ListItem"
 import ListItemDeleteAction from "../component/ListItemDeleteAction"
-// import ListItemSeparator from "../component/ListItemSeparator"
+import {getPostsAction} from "../redux/actions/postsActions"
 import Screen from "../component/shared/Screen"
-const posts = [
-  {
-    id: 1,
-    title: "First Post my life",
-    description:
-      "description is coll and usefull though some time I dont include it but I knwo it is very needed",
-    image: "2 Days ago",
-  },
-  {
-    id: 2,
-    title: "Second Post my life",
-    description:
-      "description is coll and usefull though some time I dont include it but I knwo it is very needed",
-    image: "2 Days ago",
-  },
-]
-function PostsScreen(props) {
+
+const PostsScreen = (props) => {
+  const [fetchedPosts, setFetchedPosts] = useState([])
+  useEffect(() => {
+    const {getPostsAction} = props
+    getPostsAction()
+  }, [])
+  useEffect(() => {
+    const {data} = props
+    setFetchedPosts(data)
+  }, [props.posts])
   return (
     <Screen>
       <FlatList
-        data={posts}
-        keyExtractor={(post) => post.id.toString()}
+        data={fetchedPosts}
+        keyExtractor={(post) => post.entryid.toString()}
         renderItem={({item}) => (
           <ListItem
             title={item.title}
             subTitle={item.description}
-            image={item.image}
-            onPress={() => console.log("okay", item)}
+            image={item.createdon.split(" ")[0]}
+            onPress={() => console.log("list item", item)}
             renderRightActions={() => (
               <ListItemDeleteAction
                 deleteHandler={() => console.log("DETE ICON")}
@@ -40,7 +35,6 @@ function PostsScreen(props) {
             )}
           />
         )}
-        // ItemSeparatorComponent={ListItemSeparator}
       />
     </Screen>
   )
@@ -49,5 +43,11 @@ function PostsScreen(props) {
 const styles = StyleSheet.create({
   container: {},
 })
+const mapStateToProps = ({posts}) => {
+  return posts
+}
 
-export default PostsScreen
+const mapDispatchToProps = {
+  getPostsAction,
+}
+export default connect(mapStateToProps, mapDispatchToProps)(PostsScreen)
