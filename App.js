@@ -18,7 +18,7 @@ export default function App() {
   //   setAuthToken(token)
   // }
   return (
-    <Provider store={store}>
+    <Provider store={store()}>
       {/* <NavigationContainer> */}
       {/* {authToken ? <TabNavigator /> : <AuthNavigator />} */}
       {/* <TabNavigator /> */}

@@ -10,6 +10,7 @@ export const getPostsAction = () => async (dispatch) => {
       {headers: {token}}
     )
     const {data} = res.data
+    // console.log("ACTIONSS+++++++++", data)
 
     return dispatch({type: GET_POSTS_SUCCESS, payload: data})
   } catch (error) {
