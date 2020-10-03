@@ -11,13 +11,14 @@ import AppButton from "../component/shared/AppButton"
 import {Formik} from "formik"
 import ErrorMessage from "../component/form/ErrorMessage"
 import authStorage from "../utils/storage"
+import ActivityIndicator from "../component/ActivityIndicator"
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().required().email().label("Email"),
   password: Yup.string().required().min(5).label("Password"),
 })
 const LoginScreen = (props) => {
-  const [loginError, setLoginError] = useState(null)
+  const [loading, setLoading] = useState(false)
   const [loginFailed, setLoginFailed] = useState(false)
   // useEffect(() => {
   //   const {loginReducer, data} = props
@@ -30,17 +31,21 @@ const LoginScreen = (props) => {
   //   }
   // }, [])
   const handleLogin = async (values) => {
+    setLoading(true)
     const {data, error, loginReducer} = props
     const output = await props.loginAction(values)
     console.log("DDDDATA++++++", data)
     // console.log("login reducer________", loginReducer)
     if (output.type === "LOGIN_ERROR") {
+      setLoading(false)
+
       setLoginFailed(true)
     } else {
       const {redirect, redirectUser} = props
       await authStorage.storeToken(output.payload.token)
       // console.log("++++++++++BEFORE", redirect)
       redirectUser(true)
+      // setLoading(false)
       // console.log("AFTER+++++++++++", redirect)
       // props.navigation.navigate("Welcome")
       // go to the dashboard
@@ -48,6 +53,7 @@ const LoginScreen = (props) => {
   }
   return (
     <Screen style={styles.container}>
+      <ActivityIndicator visible={loading} />
       <Text style={styles.title}>LOGIN</Text>
       <View style={styles.formConatiner}>
         <Formik
@@ -93,7 +99,7 @@ const LoginScreen = (props) => {
               <AppButton
                 title="Login"
                 color="white"
-                backgroundColor="primary"
+                backgroundColor="secondary"
                 onPress={handleSubmit}
               />
             </>

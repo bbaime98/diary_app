@@ -5,7 +5,7 @@ import TabNavigator from "../navigation/TabNavigator"
 import authStorage from "./storage"
 import {connect} from "react-redux"
 // import {redirectUser} from "../redux/actions/redirectUser"
-
+import Loader from "../component/ActivityIndicator"
 const Auth = (props) => {
   const [authToken, setAuthToken] = useState(null)
   const [redirectState, setRedirectState] = useState(null)
@@ -26,6 +26,7 @@ const Auth = (props) => {
       {redirectState && authToken ? <TabNavigator /> : <AuthNavigator />}
       {/* <TabNavigator /> */}
       {/* <AuthNavigator /> */}
+      {/* <Loader /> */}
     </NavigationContainer>
   )
 }

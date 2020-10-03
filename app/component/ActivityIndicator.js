@@ -1,30 +1,28 @@
 import React from "react"
-import LottieView from "lottie-react-native"
-import {View, StyleSheet} from "react-native"
-// import {floor} from "react-native-reanimated"
+import {View, StyleSheet, Image, Text} from "react-native"
+import colors from "../config/colors"
 
-const ActivityIndicator = ({visible = false}) => {
+const ActivityIndicator = ({visible = true}) => {
   if (!visible) return null
   return (
-    <View style={styles.overlay}>
-      <LottieView
-        autoPlay
-        loop
-        source={require("../assets/animations/loader1.json")}
-      />
+    <View style={styles.loader}>
+      <Image source={require("../assets/og.gif")} />
+      <Text style={styles.loading}>Loading...</Text>
     </View>
   )
 }
 
 const styles = StyleSheet.create({
-  overlay: {
-    backgroundColor: "#021249",
+  loader: {
+    backgroundColor: colors.white,
     height: "100%",
     width: "100%",
-    opacity: 1,
-    position: "absolute",
     zIndex: 1,
-    // marginTop: 30,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  loading: {
+    color: colors.secondary,
   },
 })
 
