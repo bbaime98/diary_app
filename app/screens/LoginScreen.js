@@ -34,8 +34,6 @@ const LoginScreen = (props) => {
     setLoading(true)
     const {data, error, loginReducer} = props
     const output = await props.loginAction(values)
-    console.log("DDDDATA++++++", data)
-    // console.log("login reducer________", loginReducer)
     if (output.type === "LOGIN_ERROR") {
       setLoading(false)
 
@@ -43,12 +41,8 @@ const LoginScreen = (props) => {
     } else {
       const {redirect, redirectUser} = props
       await authStorage.storeToken(output.payload.token)
-      // console.log("++++++++++BEFORE", redirect)
       redirectUser(true)
-      // setLoading(false)
-      // console.log("AFTER+++++++++++", redirect)
-      // props.navigation.navigate("Welcome")
-      // go to the dashboard
+      setLoading(false)
     }
   }
   return (

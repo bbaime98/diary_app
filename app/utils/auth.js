@@ -32,7 +32,7 @@ const Auth = (props) => {
 }
 
 const mapStateToProps = ({redirect}) => {
-  return redirect
+  return {redirect}
 }
 
 export default connect(mapStateToProps, null)(Auth)

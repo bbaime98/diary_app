@@ -10,14 +10,17 @@ import ActivityIndicator from "../component/ActivityIndicator"
 const PostsScreen = (props) => {
   const [loading, setLoading] = useState(true)
   const [fetchedPosts, setFetchedPosts] = useState([])
+  // useEffect(() => {
+  //   setLoading(true)
+  //   const {getPostsAction, data, posts} = props
+  //   getPostsAction()
+  // }, [])
   useEffect(() => {
-    const {getPostsAction, data} = props
+    // setLoading(true)
+    const {posts, getPostsAction} = props
     getPostsAction()
+    setFetchedPosts(posts.data)
     setLoading(false)
-  }, [])
-  useEffect(() => {
-    const {data} = props
-    setFetchedPosts(data)
   }, [props.posts])
   return (
     <Screen>
@@ -48,7 +51,7 @@ const styles = StyleSheet.create({
   container: {},
 })
 const mapStateToProps = ({posts}) => {
-  return posts
+  return {posts}
 }
 
 const mapDispatchToProps = {
