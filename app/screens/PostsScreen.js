@@ -5,12 +5,15 @@ import ListItem from "../component/ListItem"
 import ListItemDeleteAction from "../component/ListItemDeleteAction"
 import {getPostsAction} from "../redux/actions/postsActions"
 import Screen from "../component/shared/Screen"
+import ActivityIndicator from "../component/ActivityIndicator"
 
 const PostsScreen = (props) => {
+  const [loading, setLoading] = useState(true)
   const [fetchedPosts, setFetchedPosts] = useState([])
   useEffect(() => {
-    const {getPostsAction} = props
+    const {getPostsAction, data} = props
     getPostsAction()
+    setLoading(false)
   }, [])
   useEffect(() => {
     const {data} = props
@@ -18,6 +21,7 @@ const PostsScreen = (props) => {
   }, [props.posts])
   return (
     <Screen>
+      <ActivityIndicator visible={loading} />
       <FlatList
         data={fetchedPosts}
         keyExtractor={(post) => post.entryid.toString()}

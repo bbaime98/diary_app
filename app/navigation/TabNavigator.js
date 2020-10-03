@@ -10,7 +10,7 @@ const Tab = createBottomTabNavigator()
 const AppNavigator = () => (
   <Tab.Navigator
     tabBarOptions={{
-      activeTintColor: colors.primary,
+      activeTintColor: colors.secondary,
     }}
   >
     <Tab.Screen

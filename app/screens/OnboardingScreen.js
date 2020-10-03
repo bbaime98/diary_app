@@ -21,13 +21,13 @@ class OnboardingScreen extends Component {
         <Swiper autoplay={true}>
           <View style={styles.slide}>
             <Image
-              source={require("../assets/img2.jpg")}
+              source={require("../assets/img22.jpg")}
               style={styles.image}
             />
           </View>
           <View style={styles.slide}>
             <Image
-              source={require("../assets/img1.jpg")}
+              source={require("../assets/img11.jpg")}
               style={styles.image}
             />
           </View>
@@ -51,7 +51,11 @@ class OnboardingScreen extends Component {
 
         <View style={styles.buttonsContainer}>
           <View style={styles.sinupContainer}>
-            <AppButton title="SIGNUP" backgroundColor="white" color="primary" />
+            <AppButton
+              title="SIGNUP"
+              backgroundColor="white"
+              color="secondary"
+            />
           </View>
           <View style={styles.loginContainer}>
             <AppButton
