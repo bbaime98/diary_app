@@ -2,7 +2,7 @@ import React from "react"
 import {View, StyleSheet, Image, Text} from "react-native"
 import colors from "../config/colors"
 
-const ActivityIndicator = ({visible = true}) => {
+const ActivityIndicator = ({visible = false}) => {
   if (!visible) return null
   return (
     <View style={styles.loader}>

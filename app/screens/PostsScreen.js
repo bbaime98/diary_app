@@ -3,7 +3,7 @@ import {StyleSheet, FlatList} from "react-native"
 import {connect} from "react-redux"
 import ListItem from "../component/ListItem"
 import ListItemDeleteAction from "../component/ListItemDeleteAction"
-import {getPostsAction} from "../redux/actions/postsActions"
+import {getPostsAction, deletePostAction} from "../redux/actions/postsActions"
 import Screen from "../component/shared/Screen"
 import ActivityIndicator from "../component/ActivityIndicator"
 
@@ -11,17 +11,33 @@ const PostsScreen = (props) => {
   const [loading, setLoading] = useState(true)
   const [fetchedPosts, setFetchedPosts] = useState([])
   // useEffect(() => {
-  //   setLoading(true)
+  //   // setLoading(true)
+  //   console.log("________+++_+++props use effect")
   //   const {getPostsAction, data, posts} = props
   //   getPostsAction()
-  // }, [])
+  // }, [props.posts])
   useEffect(() => {
-    // setLoading(true)
+    setLoading(true)
+    console.log("________jj+++_+++empyt use effect")
     const {posts, getPostsAction} = props
     getPostsAction()
     setFetchedPosts(posts.data)
     setLoading(false)
-  }, [props.posts])
+  }, [])
+
+  const deleteHandler = async (entryid) => {
+    console.log("DELETE______", entryid)
+    // setLoading(true)
+    const {
+      posts: {data, error},
+      deletePostAction,
+    } = props
+    deletePostAction(entryid)
+    if (data) {
+      getPostsAction()
+    }
+    // setLoading(false)
+  }
   return (
     <Screen>
       <ActivityIndicator visible={loading} />
@@ -33,10 +49,10 @@ const PostsScreen = (props) => {
             title={item.title}
             subTitle={item.description}
             image={item.createdon.split(" ")[0]}
-            onPress={() => console.log("list item", item)}
+            // onPress={() => console.log("list item", item)}
             renderRightActions={() => (
               <ListItemDeleteAction
-                deleteHandler={() => console.log("DETE ICON")}
+                deleteHandler={() => deleteHandler(item.entryid)}
                 editHandler={() => console.log("edit ICON")}
               />
             )}
@@ -56,5 +72,6 @@ const mapStateToProps = ({posts}) => {
 
 const mapDispatchToProps = {
   getPostsAction,
+  deletePostAction,
 }
 export default connect(mapStateToProps, mapDispatchToProps)(PostsScreen)
