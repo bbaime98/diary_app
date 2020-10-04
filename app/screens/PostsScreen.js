@@ -10,6 +10,7 @@ import ActivityIndicator from "../component/ActivityIndicator"
 const PostsScreen = (props) => {
   const [loading, setLoading] = useState(true)
   const [fetchedPosts, setFetchedPosts] = useState([])
+  const [refreshing, setRefreshing] = useState(false)
   // useEffect(() => {
   //   // setLoading(true)
   //   console.log("________+++_+++props use effect")
@@ -43,6 +44,18 @@ const PostsScreen = (props) => {
     setFetchedPosts(filteredPosts)
     setLoading(false)
   }
+
+  const refreshingHandler = async () => {
+    setRefreshing(true)
+    const {
+      posts: {data, error},
+      getPostsAction,
+    } = props
+    await getPostsAction()
+    setFetchedPosts(data)
+    setRefreshing(false)
+  }
+
   return (
     <Screen>
       <ActivityIndicator visible={loading} />
@@ -64,6 +77,8 @@ const PostsScreen = (props) => {
               )}
             />
           )}
+          refreshing={refreshing}
+          onRefresh={() => refreshingHandler()}
         />
       )}
     </Screen>
