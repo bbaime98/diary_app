@@ -17,48 +17,55 @@ const PostsScreen = (props) => {
   //   getPostsAction()
   // }, [props.posts])
   useEffect(() => {
+    // getPostsAction()
+    getAllPosts()
+  }, [])
+  const getAllPosts = async () => {
     setLoading(true)
-    console.log("________jj+++_+++empyt use effect")
     const {posts, getPostsAction} = props
-    getPostsAction()
+    await getPostsAction()
+    console.log("________jj+++_+++empyt use effect")
     setFetchedPosts(posts.data)
     setLoading(false)
-  }, [])
-
+  }
   const deleteHandler = async (entryid) => {
-    console.log("DELETE______", entryid)
-    // setLoading(true)
+    setLoading(true)
     const {
       posts: {data, error},
       deletePostAction,
     } = props
-    deletePostAction(entryid)
-    if (data) {
-      getPostsAction()
-    }
-    // setLoading(false)
+    await deletePostAction(entryid)
+    // await getPostsAction()
+    const filteredPosts = data.filter((post) => {
+      return post.entryid !== entryid
+    })
+    console.log("AFTER +++++++DELETE", filteredPosts)
+    setFetchedPosts(filteredPosts)
+    setLoading(false)
   }
   return (
     <Screen>
       <ActivityIndicator visible={loading} />
-      <FlatList
-        data={fetchedPosts}
-        keyExtractor={(post) => post.entryid.toString()}
-        renderItem={({item}) => (
-          <ListItem
-            title={item.title}
-            subTitle={item.description}
-            image={item.createdon.split(" ")[0]}
-            // onPress={() => console.log("list item", item)}
-            renderRightActions={() => (
-              <ListItemDeleteAction
-                deleteHandler={() => deleteHandler(item.entryid)}
-                editHandler={() => console.log("edit ICON")}
-              />
-            )}
-          />
-        )}
-      />
+      {fetchedPosts && (
+        <FlatList
+          data={fetchedPosts}
+          keyExtractor={(post) => post.entryid.toString()}
+          renderItem={({item}) => (
+            <ListItem
+              title={item.title}
+              subTitle={item.description}
+              image={item.createdon.split(" ")[0]}
+              // onPress={() => console.log("list item", item)}
+              renderRightActions={() => (
+                <ListItemDeleteAction
+                  deleteHandler={() => deleteHandler(item.entryid)}
+                  editHandler={() => console.log("edit ICON")}
+                />
+              )}
+            />
+          )}
+        />
+      )}
     </Screen>
   )
 }
