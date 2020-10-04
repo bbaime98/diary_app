@@ -2,7 +2,7 @@ import React, {useState, useEffect, Component} from "react"
 import {connect} from "react-redux"
 import {loginAction} from "../redux/actions/loginAction"
 import {redirectUser} from "../redux/actions/redirectUser"
-import {StyleSheet, Image, View, Text, Button} from "react-native"
+import {StyleSheet, Image, View, Text} from "react-native"
 import Screen from "../component/shared/Screen"
 import colors from "../config/colors"
 import AppInputField from "../component/form/AppTextInput"
@@ -14,8 +14,8 @@ import authStorage from "../utils/storage"
 import ActivityIndicator from "../component/ActivityIndicator"
 
 const validationSchema = Yup.object().shape({
-  title: Yup.string().required().min(10).label("Title"),
-  password: Yup.string().required().min(50).label("Password"),
+  title: Yup.string().required().min(10).max(50).label("Title"),
+  description: Yup.string().required().min(50).label("Description"),
 })
 const EditPostScreen = ({route}) => {
   const post = route.params
@@ -32,7 +32,7 @@ const EditPostScreen = ({route}) => {
       <View style={styles.formConatiner}>
         <Formik
           initialValues={{title: post.title, description: post.description}}
-          onSubmit={(values) => handleEdit()}
+          onSubmit={(values) => handleEdit(values)}
           validationSchema={validationSchema}
         >
           {({handleChange, handleSubmit, errors, setFieldTouched, touched}) => (
@@ -41,17 +41,16 @@ const EditPostScreen = ({route}) => {
                 error="Invalid title and/or password."
                 visible={loginFailed}
               /> */}
-              {errors.title && errors.title ? (
-                <ErrorMessage error={errors.title} visible={touched.title} />
-              ) : (
-                <Text style={styles.label}>Title</Text>
-              )}
+
+              <Text style={styles.label}>Title</Text>
+              <ErrorMessage error={errors.title} visible={touched.title} />
               <AppInputField
                 placeholder="Title"
                 autoCapitalize="none"
                 name="title"
                 defaultValue={post.title}
                 multiline={true}
+                maxLength={30}
                 onChangeText={handleChange("title")}
                 onBlur={() => setFieldTouched("title")}
               />
@@ -63,23 +62,26 @@ const EditPostScreen = ({route}) => {
               ) : (
                 <Text style={styles.label}>Description</Text>
               )}
-              <AppInputField
-                placeholder="Description"
-                autoCapitalize="none"
-                name="description"
-                defaultValue={post.description}
-                multiline={true}
-                onChangeText={handleChange("description")}
-                onBlur={() => setFieldTouched("description")}
-              />
+              <View style={styles.descriptionInputFieldHeight}>
+                <AppInputField
+                  placeholder="Description"
+                  autoCapitalize="none"
+                  name="description"
+                  defaultValue={post.description}
+                  multiline={true}
+                  onChangeText={handleChange("description")}
+                  onBlur={() => setFieldTouched("description")}
+                />
+              </View>
               {/* <ErrorMessage error={errors.title} visible={touched.title} /> */}
-
-              <AppButton
-                title="Save"
-                color="white"
-                backgroundColor="blue"
-                onPress={handleSubmit}
-              />
+              <View style={styles.buttonContainer}>
+                <AppButton
+                  title="Save"
+                  color="white"
+                  backgroundColor="primary"
+                  onPress={handleSubmit}
+                />
+              </View>
             </>
           )}
         </Formik>
@@ -93,6 +95,9 @@ const styles = StyleSheet.create({
     backgroundColor: colors.primary,
     // padding: 10,
   },
+  buttonContainer: {
+    marginBottom: 20,
+  },
   formConatiner: {
     backgroundColor: colors.white,
     alignSelf: "center",
@@ -101,7 +106,11 @@ const styles = StyleSheet.create({
     padding: 10,
     paddingTop: 10,
     width: "100%",
-    marginVertical: 10,
+    // marginVertical: 10,
+    marginBottom: 20,
+  },
+  descriptionInputFieldHeight: {
+    height: 200,
   },
   label: {
     fontSize: 18,

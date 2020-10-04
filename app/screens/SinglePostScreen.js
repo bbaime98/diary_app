@@ -1,5 +1,5 @@
 import React, {useEffect} from "react"
-import {View, StyleSheet, Text, ImageBackground} from "react-native"
+import {View, StyleSheet, Text, ImageBackground, ScrollView} from "react-native"
 import colors from "../config/colors"
 
 function SinglePostScreen({route}) {
@@ -13,30 +13,40 @@ function SinglePostScreen({route}) {
         source={require("../assets/write.jpg")}
         style={styles.image}
       >
-        <Text style={styles.title}>{post.title}</Text>
+        <View style={styles.titleContainer}>
+          <Text style={styles.title}>{post.title}</Text>
+        </View>
       </ImageBackground>
-      <Text style={styles.description}>{post.description}</Text>
-      <View style={styles.createdOn}>
-        <Text style={styles.postOn}>Posted on</Text>
-        <Text style={styles.date}>{post.createdon.split(" ")[0]}</Text>
-        <Text style={styles.time}>{post.createdon.split(" ")[1]}</Text>
-      </View>
+      <ScrollView style={styles.descriptionContainer}>
+        <View>
+          <Text style={styles.description}>{post.description}</Text>
+        </View>
+        {/* </ScrollView> */}
+        <View style={styles.createdOn}>
+          <Text style={styles.postOn}>Posted on</Text>
+          <Text style={styles.date}>{post.createdon.split(" ")[0]}</Text>
+          <Text style={styles.time}>{post.createdon.split(" ")[1]}</Text>
+        </View>
+      </ScrollView>
     </View>
   )
 }
 
 const styles = StyleSheet.create({
-  container: {},
+  descriptionContainer: {
+    marginBottom: 200,
+  },
   description: {
     fontSize: 20,
     padding: 10,
     color: colors.primary,
-    marginTop: 10,
+    // marginTop: 5,
   },
   createdOn: {
     flexDirection: "row",
     marginTop: 10,
     justifyContent: "center",
+    marginBottom: 10,
   },
   date: {
     fontSize: 17,
@@ -63,14 +73,17 @@ const styles = StyleSheet.create({
     height: 200,
     width: "100%",
   },
+  titleContainer: {
+    backgroundColor: colors.medium,
+    opacity: 0.7,
+  },
   title: {
-    fontSize: 30,
+    fontSize: 27,
     color: colors.white,
-    backgroundColor: colors.blue,
     padding: 5,
     fontWeight: "bold",
-    opacity: 0.8,
     zIndex: 10,
+    opacity: 1,
   },
 })
 

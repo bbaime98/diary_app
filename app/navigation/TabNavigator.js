@@ -11,6 +11,7 @@ const AppNavigator = () => (
   <Tab.Navigator
     tabBarOptions={{
       activeTintColor: colors.secondary,
+      style: {height: 50},
     }}
   >
     <Tab.Screen
