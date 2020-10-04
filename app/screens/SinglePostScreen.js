@@ -3,9 +3,6 @@ import {View, StyleSheet, Text, ImageBackground, ScrollView} from "react-native"
 import colors from "../config/colors"
 
 function SinglePostScreen({route}) {
-  //   useEffect(() => {
-  //     console.log("SINGLE PROPS______", props)
-  //   })
   const post = route.params
   return (
     <View style={styles.container}>
@@ -27,6 +24,13 @@ function SinglePostScreen({route}) {
           <Text style={styles.date}>{post.createdon.split(" ")[0]}</Text>
           <Text style={styles.time}>{post.createdon.split(" ")[1]}</Text>
         </View>
+        {post.editedon && (
+          <View style={styles.createdOn}>
+            <Text style={styles.editedOn}>Edited on</Text>
+            <Text style={styles.date}>{post.editedon.split(" ")[0]}</Text>
+            <Text style={styles.time}>{post.editedon.split(" ")[1]}</Text>
+          </View>
+        )}
       </ScrollView>
     </View>
   )
@@ -63,6 +67,13 @@ const styles = StyleSheet.create({
     padding: 3,
     color: colors.white,
     backgroundColor: colors.primary,
+    borderRadius: 5,
+  },
+  editedOn: {
+    fontSize: 17,
+    padding: 3,
+    color: colors.white,
+    backgroundColor: colors.secondary,
     borderRadius: 5,
   },
   image: {
