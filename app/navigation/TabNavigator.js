@@ -1,7 +1,7 @@
 import React from "react"
 import {createBottomTabNavigator} from "@react-navigation/bottom-tabs"
 import {Entypo} from "@expo/vector-icons"
-import PostsScreen from "../screens/PostsScreen"
+import PostsNavigator from "../navigation/PostsNavigator"
 import NewPostScreen from "../screens/NewPostScreen"
 import colors from "../config/colors"
 
@@ -15,7 +15,7 @@ const AppNavigator = () => (
   >
     <Tab.Screen
       name="Posts"
-      component={PostsScreen}
+      component={PostsNavigator}
       options={{
         tabBarIcon: ({color, size}) => (
           <Entypo name="newsletter" color={colors.primary} size={size} />
