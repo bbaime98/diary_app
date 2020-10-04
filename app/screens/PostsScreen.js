@@ -73,7 +73,7 @@ const PostsScreen = (props) => {
               renderRightActions={() => (
                 <ListItemDeleteAction
                   deleteHandler={() => deleteHandler(item.entryid)}
-                  editHandler={() => console.log("edit ICON")}
+                  editHandler={() => props.navigation.navigate("Edit", item)}
                 />
               )}
             />
