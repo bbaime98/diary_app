@@ -11,16 +11,17 @@ const PostsScreen = (props) => {
   const [loading, setLoading] = useState(true)
   const [fetchedPosts, setFetchedPosts] = useState([])
   const [refreshing, setRefreshing] = useState(false)
-  // useEffect(() => {
-  //   // setLoading(true)
-  //   console.log("________+++_+++props use effect")
-  //   const {getPostsAction, data, posts} = props
-  //   getPostsAction()
-  // }, [props.posts])
   useEffect(() => {
     // getPostsAction()
     getAllPosts()
   }, [])
+  // useEffect(() => {
+  //   // setLoading(true)
+  //   // const {getPostsAction} = props
+  //   console.log("________+RIGHT+++")
+  //   // const {getPostsAction} = props
+  //   getPostsAction()
+  // }, [props.posts])
   const getAllPosts = async () => {
     setLoading(true)
     const {posts, getPostsAction} = props
@@ -68,7 +69,7 @@ const PostsScreen = (props) => {
               title={item.title}
               subTitle={item.description}
               image={item.createdon.split(" ")[0]}
-              // onPress={() => console.log("list item", item)}
+              onPress={() => props.navigation.navigate("Single", item)}
               renderRightActions={() => (
                 <ListItemDeleteAction
                   deleteHandler={() => deleteHandler(item.entryid)}
