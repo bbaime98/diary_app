@@ -8,7 +8,7 @@ const Stack = createStackNavigator()
 
 const PostsNavigator = () => {
   return (
-    <Stack.Navigator mode="modal" screenOptions={{headerShown: false}}>
+    <Stack.Navigator mode="card" screenOptions={{headerShown: false}}>
       <Stack.Screen name="Posts" component={PostsScreen} />
       <Stack.Screen name="Single" component={SinglePostScreen} />
       <Stack.Screen name="Edit" component={EditPostScreen} />
