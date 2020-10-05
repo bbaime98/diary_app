@@ -42,7 +42,7 @@ const LoginScreen = (props) => {
       const {redirect, redirectUser} = props
       await authStorage.storeToken(output.payload.token)
       redirectUser(true)
-      setLoading(false)
+      // setLoading(false)
     }
   }
   return (
