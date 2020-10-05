@@ -1,32 +1,39 @@
 import React, {useEffect, useState} from "react"
-import {StyleSheet, FlatList} from "react-native"
+import {StyleSheet, FlatList, View, Text} from "react-native"
 import {connect} from "react-redux"
 import ListItem from "../component/ListItem"
 import ListItemDeleteAction from "../component/ListItemDeleteAction"
 import {getPostsAction, deletePostAction} from "../redux/actions/postsActions"
 import Screen from "../component/shared/Screen"
 import ActivityIndicator from "../component/ActivityIndicator"
+import colors from "../config/colors"
 
 const PostsScreen = (props) => {
   const [loading, setLoading] = useState(false)
   const [fetchedPosts, setFetchedPosts] = useState([])
   const [refreshing, setRefreshing] = useState(false)
+  const [userName, setUserName] = useState(null)
   useEffect(() => {
     const {getPostsAction} = props
     setLoading(true)
     getPostsAction()
-    // console.log("_______1st use Effect******* NAVIGATE")
   }, [])
   useEffect(() => {
     // setLoading(true)
-    const {posts} = props
+    const {
+      posts,
+      authReducer: {data},
+    } = props
+    console.log("data_____", data)
+    if (data) {
+      setUserName(data.lastName)
+    }
     if (posts) {
-      // console.log("_______2nd use Effect,navigate", typeof posts.data)
       setLoading(false)
       return setFetchedPosts(posts.data)
     }
     setLoading(false)
-  }, [props.posts, props.singlePost, props.navigation])
+  }, [props.posts, props.singlePost, props.navigation, props.authReducer])
 
   const deleteHandler = async (entryid) => {
     setLoading(true)
@@ -39,7 +46,6 @@ const PostsScreen = (props) => {
     const filteredPosts = data.filter((post) => {
       return post.entryid !== entryid
     })
-    console.log("AFTER +++++++DELETE", filteredPosts)
     setFetchedPosts(filteredPosts)
     setLoading(false)
   }
@@ -59,8 +65,8 @@ const PostsScreen = (props) => {
     <Screen>
       <ActivityIndicator visible={loading} />
       {/* {fetchedPosts &&
-        console.log("HAHAHAHA type-----", Object.keys(fetchedPosts))} */}
-      {fetchedPosts && (
+        console.log("____type-----", Object.keys(fetchedPosts))} */}
+      {fetchedPosts && fetchedPosts.length !== 0 ? (
         <FlatList
           data={fetchedPosts}
           keyExtractor={(post) => post.entryid.toString()}
@@ -81,16 +87,31 @@ const PostsScreen = (props) => {
           refreshing={refreshing}
           onRefresh={() => refreshingHandler()}
         />
+      ) : (
+        <View style={styles.welcomeTextContainer}>
+          <Text style={styles.welcomeText}>
+            Welcome <Text style={{color: "red"}}>{userName}</Text>, Create a
+            post!
+          </Text>
+        </View>
       )}
     </Screen>
   )
 }
 
 const styles = StyleSheet.create({
-  container: {},
+  welcomeTextContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  welcomeText: {
+    fontWeight: "bold",
+    color: colors.primary,
+  },
 })
-const mapStateToProps = ({posts, singlePost}) => {
-  return {posts, singlePost}
+const mapStateToProps = ({posts, singlePost, authReducer}) => {
+  return {posts, singlePost, authReducer}
 }
 
 const mapDispatchToProps = {

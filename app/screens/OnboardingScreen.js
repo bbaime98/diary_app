@@ -55,6 +55,7 @@ class OnboardingScreen extends Component {
               title="SIGNUP"
               backgroundColor="white"
               color="secondary"
+              onPress={() => navigation.navigate("Signup")}
             />
           </View>
           <View style={styles.loginContainer}>
