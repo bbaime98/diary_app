@@ -24,7 +24,6 @@ const PostsScreen = (props) => {
       posts,
       authReducer: {data},
     } = props
-    console.log("data_____", data)
     if (data) {
       setUserName(data.lastName)
     }

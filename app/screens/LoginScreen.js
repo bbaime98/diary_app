@@ -15,7 +15,14 @@ import ActivityIndicator from "../component/ActivityIndicator"
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().required().email().label("Email"),
-  password: Yup.string().required().min(5).label("Password"),
+  password: Yup.string()
+    .required()
+    .min(7)
+    .matches(
+      /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{7,}$/,
+      "include uppercase, lowercase, number and special character"
+    )
+    .label("Password"),
 })
 const LoginScreen = (props) => {
   const [loading, setLoading] = useState(false)
