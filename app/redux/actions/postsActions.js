@@ -17,7 +17,6 @@ import authStorage from "../../utils/storage"
 export const getPostsAction = () => async (dispatch) => {
   try {
     const token = await authStorage.getToken()
-    // console.log("GET POSTS____TOKEN", token)
     if (!token) {
       return dispatch({type: REDIRECT_USER, payload: false})
     }
@@ -42,14 +41,7 @@ export const singlePostsAction = (id) => async (dispatch) => {
       {headers: {token}}
     )
     const {data} = res.data
-    // if (data) {
-    // dispatch({type: GET_POSTS_SUCCESS, payload: data})
     return dispatch({type: GET_SINGLE_POST_SUCCESS, payload: data})
-    // }
-    // return dispatch({
-    //   type: GET_SINGLE_POST_ERROR,
-    //   payload: error.response.data.error,
-    // })
   } catch (error) {
     console.log("GET POSTS___Action error", error)
 
@@ -88,7 +80,6 @@ export const editPostAction = (postDetails, id) => async (dispatch) => {
       {headers: {token}}
     )
     const {data} = res.data
-    // console.log("EDITE____RESPONSE", data)
     getPostsAction()
     return dispatch({type: EDIT_POST_SUCCESS, payload: data})
   } catch (error) {
@@ -109,7 +100,6 @@ export const newPostAction = (postDetails, id) => async (dispatch) => {
       {headers: {token}}
     )
     const {data} = res.data
-    console.log("nEW____RESPONSE", data)
     getPostsAction()
     return dispatch({type: NEW_POST_SUCCESS, payload: data})
   } catch (error) {

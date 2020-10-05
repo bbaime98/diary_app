@@ -1,6 +1,6 @@
 import React, {useState, useEffect, Component} from "react"
 import {connect} from "react-redux"
-import {loginAction} from "../redux/actions/loginAction"
+import {signupAction} from "../redux/actions/loginAction"
 import {redirectUser} from "../redux/actions/redirectUser"
 import {StyleSheet, Image, View, Text, Button} from "react-native"
 import Screen from "../component/shared/Screen"
@@ -16,44 +16,69 @@ import ActivityIndicator from "../component/ActivityIndicator"
 const validationSchema = Yup.object().shape({
   email: Yup.string().required().email().label("Email"),
   password: Yup.string().required().min(5).label("Password"),
+  firstName: Yup.string().required().label("First Name"),
+  lastName: Yup.string().required().label("Last Name"),
 })
-const LoginScreen = (props) => {
+const SignupScreen = (props) => {
   const [loading, setLoading] = useState(false)
   const [loginFailed, setLoginFailed] = useState(false)
-  const handleLogin = async (values) => {
-    setLoading(true)
-    const {data, error, authReducer} = props
-    const output = await props.loginAction(values)
-    if (output.type === "LOGIN_ERROR") {
-      setLoading(false)
 
-      setLoginFailed(true)
-    } else {
-      const {redirect, redirectUser} = props
-      await authStorage.storeToken(output.payload.token)
+  useEffect(() => {
+    const {
+      authReducer: {data, error},
+      redirectUser,
+    } = props
+    if (data) {
+      authStorage.storeToken(data.token)
       redirectUser(true)
-      // setLoading(false)
     }
+    if (error) {
+      setLoginFailed(true)
+    }
+    setLoading(false)
+  }, [props.authReducer])
+
+  const handleLogin = async (values) => {
+    const {signupAction} = props
+    signupAction(values)
+    setLoading(true)
   }
   return (
     <Screen style={styles.container}>
       <ActivityIndicator visible={loading} />
-      <Text style={styles.title}>LOGIN</Text>
+      <Text style={styles.title}>SIGNUP</Text>
       <Formik
-        initialValues={{email: "", password: ""}}
+        initialValues={{firstName: "", lastName: "", email: "", password: ""}}
         onSubmit={(values) => handleLogin(values)}
         validationSchema={validationSchema}
       >
         {({handleChange, handleSubmit, errors, setFieldTouched, touched}) => (
           <>
             <View style={styles.formConatiner}>
+              <ErrorMessage error="User Already Exist" visible={loginFailed} />
               <ErrorMessage
-                error="Invalid email and/or password."
-                visible={loginFailed}
+                error={errors.firstName}
+                visible={touched.firstName}
               />
               <AppInputField
+                placeholder="First Name"
+                name="firstName"
+                onChangeText={handleChange("firstName")}
+                onBlur={() => setFieldTouched("firstName")}
+              />
+              <ErrorMessage
+                error={errors.lastName}
+                visible={touched.lastName}
+              />
+              <AppInputField
+                placeholder="Last Name"
+                name="lastName"
+                onChangeText={handleChange("lastName")}
+                onBlur={() => setFieldTouched("lastName")}
+              />
+              <ErrorMessage error={errors.email} visible={touched.email} />
+              <AppInputField
                 placeholder="Email"
-                icon="email-outline"
                 keyboardType="email-address"
                 textContentType="emailAddress"
                 autoCapitalize="none"
@@ -61,11 +86,13 @@ const LoginScreen = (props) => {
                 onChangeText={handleChange("email")}
                 onBlur={() => setFieldTouched("email")}
               />
-              <ErrorMessage error={errors.email} visible={touched.email} />
+              <ErrorMessage
+                error={errors.password}
+                visible={touched.password}
+              />
               <AppInputField
                 autoCapitalize="none"
                 autoCorrect={false}
-                icon="lock-outline"
                 placeholder="Password"
                 secureTextEntry
                 textContentType="password"
@@ -73,16 +100,12 @@ const LoginScreen = (props) => {
                 onChangeText={handleChange("password")}
                 onBlur={() => setFieldTouched("password")}
               />
-              <ErrorMessage
-                error={errors.password}
-                visible={touched.password}
-              />
             </View>
             <View style={styles.btnContainer}>
               <AppButton
-                title="Login"
+                title="SIGNUP"
                 color="white"
-                backgroundColor="secondary"
+                backgroundColor="primary"
                 onPress={handleSubmit}
               />
             </View>
@@ -95,8 +118,7 @@ const LoginScreen = (props) => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: colors.primary,
-    // padding: 10,
+    backgroundColor: colors.white,
   },
   btnContainer: {
     marginTop: 20,
@@ -107,9 +129,8 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
     alignSelf: "center",
     borderRadius: 5,
-    height: 200,
+    height: 330,
     padding: 10,
-    paddingTop: 25,
     width: "80%",
     shadowColor: "#000",
     shadowOffset: {
@@ -119,14 +140,12 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 2,
     elevation: 2,
-    // marginVertical: 20,
   },
   title: {
     alignSelf: "center",
-    marginTop: 60,
+    marginTop: 20,
     marginBottom: 20,
-    color: colors.white,
-    // fontWeight: "bold",
+    color: colors.secondary,
     fontSize: 30,
   },
   error: {
@@ -139,7 +158,7 @@ const mapStateToProps = ({authReducer, redirect}) => {
 }
 
 const mapDispatchToProps = {
-  loginAction,
+  signupAction,
   redirectUser,
 }
-export default connect(mapStateToProps, mapDispatchToProps)(LoginScreen)
+export default connect(mapStateToProps, mapDispatchToProps)(SignupScreen)
