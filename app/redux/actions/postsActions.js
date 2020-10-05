@@ -9,6 +9,8 @@ import {
   EDIT_POST_SUCCESS,
   GET_SINGLE_POST_ERROR,
   GET_SINGLE_POST_SUCCESS,
+  NEW_POST_ERROR,
+  NEW_POST_SUCCESS,
 } from "./actionTypes"
 import authStorage from "../../utils/storage"
 
@@ -94,6 +96,27 @@ export const editPostAction = (postDetails, id) => async (dispatch) => {
 
     return dispatch({
       type: EDIT_POST_ERROR,
+      payload: error.response.data.error,
+    })
+  }
+}
+export const newPostAction = (postDetails, id) => async (dispatch) => {
+  try {
+    const token = await authStorage.getToken()
+    const res = await axios.post(
+      "https://mydiary-api-app.herokuapp.com/api/v2/entries/",
+      postDetails,
+      {headers: {token}}
+    )
+    const {data} = res.data
+    console.log("nEW____RESPONSE", data)
+    getPostsAction()
+    return dispatch({type: NEW_POST_SUCCESS, payload: data})
+  } catch (error) {
+    console.log("Action error new post", error)
+
+    return dispatch({
+      type: NEW_POST_ERROR,
       payload: error.response.data.error,
     })
   }
