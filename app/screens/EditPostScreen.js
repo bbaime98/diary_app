@@ -1,37 +1,41 @@
 import React, {useState, useEffect, Component} from "react"
 import {connect} from "react-redux"
-import {editPostAction} from "../redux/actions/postsActions"
-import {redirectUser} from "../redux/actions/redirectUser"
+import {editPostAction, getPostsAction} from "../redux/actions/postsActions"
 import {StyleSheet, Image, View, Text} from "react-native"
 import Screen from "../component/shared/Screen"
 import colors from "../config/colors"
 import AppInputField from "../component/form/AppTextInput"
 import * as Yup from "yup"
 import AppButton from "../component/shared/AppButton"
-import {FastField, Formik} from "formik"
+import {Formik} from "formik"
 import ErrorMessage from "../component/form/ErrorMessage"
-import authStorage from "../utils/storage"
 import ActivityIndicator from "../component/ActivityIndicator"
 
 const validationSchema = Yup.object().shape({
   title: Yup.string().required().min(10).max(50).label("Title"),
   description: Yup.string().required().min(50).label("Description"),
 })
-const EditPostScreen = ({route, editPostAction, posts, navigation}) => {
-  const post = route.params
+const EditPostScreen = ({
+  route,
+  editPostAction,
+  getPostsAction,
+  singlePost,
+  navigation,
+}) => {
+  let post = route.params
   const [loading, setLoading] = useState(false)
   const [editError, setEditError] = useState(null)
 
   const handleEdit = async (values) => {
-    const {error} = posts
+    const {error, data} = singlePost
     setLoading(true)
-    editPostAction(values, post.entryid)
+    await editPostAction(values, post.entryid)
     if (error) {
       setLoading(false)
       setEditError(error)
     }
-    navigation.navigate("Single", post)
-    setLoading(false)
+    getPostsAction()
+    navigation.navigate("Posts")
   }
   return (
     <>
@@ -145,12 +149,12 @@ const styles = StyleSheet.create({
   },
 })
 
-const mapStateToProps = ({editPostAction, posts}) => {
-  return {editPostAction, posts}
+const mapStateToProps = ({singlePost}) => {
+  return {singlePost}
 }
 
 const mapDispatchToProps = {
   editPostAction,
-  redirectUser,
+  getPostsAction,
 }
 export default connect(mapStateToProps, mapDispatchToProps)(EditPostScreen)

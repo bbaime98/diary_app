@@ -8,28 +8,26 @@ import Screen from "../component/shared/Screen"
 import ActivityIndicator from "../component/ActivityIndicator"
 
 const PostsScreen = (props) => {
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(false)
   const [fetchedPosts, setFetchedPosts] = useState([])
   const [refreshing, setRefreshing] = useState(false)
   useEffect(() => {
-    // getPostsAction()
-    getAllPosts()
-  }, [])
-  // useEffect(() => {
-  //   // setLoading(true)
-  //   // const {getPostsAction} = props
-  //   console.log("________+RIGHT+++")
-  //   // const {getPostsAction} = props
-  //   getPostsAction()
-  // }, [props.posts])
-  const getAllPosts = async () => {
+    const {getPostsAction} = props
     setLoading(true)
-    const {posts, getPostsAction} = props
-    await getPostsAction()
-    console.log("________jj+++_+++empyt use effect")
-    setFetchedPosts(posts.data)
+    getPostsAction()
+    // console.log("_______1st use Effect******* NAVIGATE")
+  }, [])
+  useEffect(() => {
+    // setLoading(true)
+    const {posts} = props
+    if (posts) {
+      // console.log("_______2nd use Effect,navigate", typeof posts.data)
+      setLoading(false)
+      return setFetchedPosts(posts.data)
+    }
     setLoading(false)
-  }
+  }, [props.posts, props.singlePost, props.navigation])
+
   const deleteHandler = async (entryid) => {
     setLoading(true)
     const {
@@ -52,7 +50,7 @@ const PostsScreen = (props) => {
       posts: {data, error},
       getPostsAction,
     } = props
-    await getPostsAction()
+    getPostsAction()
     setFetchedPosts(data)
     setRefreshing(false)
   }
@@ -60,6 +58,8 @@ const PostsScreen = (props) => {
   return (
     <Screen>
       <ActivityIndicator visible={loading} />
+      {/* {fetchedPosts &&
+        console.log("HAHAHAHA type-----", Object.keys(fetchedPosts))} */}
       {fetchedPosts && (
         <FlatList
           data={fetchedPosts}
@@ -89,8 +89,8 @@ const PostsScreen = (props) => {
 const styles = StyleSheet.create({
   container: {},
 })
-const mapStateToProps = ({posts}) => {
-  return {posts}
+const mapStateToProps = ({posts, singlePost}) => {
+  return {posts, singlePost}
 }
 
 const mapDispatchToProps = {

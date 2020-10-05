@@ -7,6 +7,8 @@ import {
   REDIRECT_USER,
   EDIT_POST_ERROR,
   EDIT_POST_SUCCESS,
+  GET_SINGLE_POST_ERROR,
+  GET_SINGLE_POST_SUCCESS,
 } from "./actionTypes"
 import authStorage from "../../utils/storage"
 
@@ -28,6 +30,31 @@ export const getPostsAction = () => async (dispatch) => {
     console.log("GET POSTS___Action error", error)
 
     return dispatch({type: GET_POSTS_ERROR, payload: error.response.data.error})
+  }
+}
+export const singlePostsAction = (id) => async (dispatch) => {
+  try {
+    const token = await authStorage.getToken()
+    const res = await axios.get(
+      `https://mydiary-api-app.herokuapp.com/api/v2/entries/${id}`,
+      {headers: {token}}
+    )
+    const {data} = res.data
+    // if (data) {
+    // dispatch({type: GET_POSTS_SUCCESS, payload: data})
+    return dispatch({type: GET_SINGLE_POST_SUCCESS, payload: data})
+    // }
+    // return dispatch({
+    //   type: GET_SINGLE_POST_ERROR,
+    //   payload: error.response.data.error,
+    // })
+  } catch (error) {
+    console.log("GET POSTS___Action error", error)
+
+    return dispatch({
+      type: GET_SINGLE_POST_ERROR,
+      payload: error.response.data.error,
+    })
   }
 }
 
@@ -59,7 +86,8 @@ export const editPostAction = (postDetails, id) => async (dispatch) => {
       {headers: {token}}
     )
     const {data} = res.data
-    console.log("EDITE____RESPONSE", data)
+    // console.log("EDITE____RESPONSE", data)
+    getPostsAction()
     return dispatch({type: EDIT_POST_SUCCESS, payload: data})
   } catch (error) {
     console.log("Action error edite", error)

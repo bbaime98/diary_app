@@ -15,7 +15,7 @@ const ListItem = ({
 }) => {
   return (
     <Swipeable renderRightActions={renderRightActions}>
-      <TouchableHighlight underlayColor={colors.light} onPress={onPress}>
+      <TouchableHighlight underlayColor={colors.white} onPress={onPress}>
         <View style={styles.container}>
           {IconComponent}
           {image && (
@@ -50,6 +50,8 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
     alignItems: "center",
     marginVertical: 10,
+    // marginTop: 10,
+    // marginBottom: 10,
   },
   image: {
     width: 70,

@@ -1,37 +1,68 @@
-import React, {useEffect} from "react"
+import React, {useEffect, useState} from "react"
 import {View, StyleSheet, Text, ImageBackground, ScrollView} from "react-native"
 import colors from "../config/colors"
+import {connect} from "react-redux"
+import {singlePostsAction} from "../redux/actions/postsActions"
 
-function SinglePostScreen({route}) {
-  const post = route.params
+function SinglePostScreen({route, singlePostsAction, singlePost, posts}) {
+  // const [postDetails, setPostDetails] = useState()
+  const postDetails = route.params
+  // useEffect(() => {
+  //   // getPostDetails()
+  // }, [])
+  // useEffect(() => {
+  //   const {data} = singlePost
+  //   if (data) {
+  //     setPostDetails(data)
+  //   }
+  // }, [singlePost, posts])
+  // const getPostDetails = async () => {
+  //   const {data} = singlePost
+  //   await singlePostsAction(postDetails.entryid)
+  //   if (data) {
+  //     setPostDetails(data)
+  //   }
+  // }
   return (
     <View style={styles.container}>
-      <ImageBackground
-        source={require("../assets/write.jpg")}
-        style={styles.image}
-      >
-        <View style={styles.titleContainer}>
-          <Text style={styles.title}>{post.title}</Text>
-        </View>
-      </ImageBackground>
-      <ScrollView style={styles.descriptionContainer}>
-        <View>
-          <Text style={styles.description}>{post.description}</Text>
-        </View>
-        {/* </ScrollView> */}
-        <View style={styles.createdOn}>
-          <Text style={styles.postOn}>Posted on</Text>
-          <Text style={styles.date}>{post.createdon.split(" ")[0]}</Text>
-          <Text style={styles.time}>{post.createdon.split(" ")[1]}</Text>
-        </View>
-        {post.editedon && (
-          <View style={styles.createdOn}>
-            <Text style={styles.editedOn}>Edited on</Text>
-            <Text style={styles.date}>{post.editedon.split(" ")[0]}</Text>
-            <Text style={styles.time}>{post.editedon.split(" ")[1]}</Text>
-          </View>
-        )}
-      </ScrollView>
+      {postDetails && (
+        <>
+          <ImageBackground
+            source={require("../assets/write.jpg")}
+            style={styles.image}
+          >
+            <View style={styles.titleContainer}>
+              <Text style={styles.title}>{postDetails.title}</Text>
+            </View>
+          </ImageBackground>
+
+          <ScrollView style={styles.descriptionContainer}>
+            <View>
+              <Text style={styles.description}>{postDetails.description}</Text>
+            </View>
+            <View style={styles.createdOn}>
+              <Text style={styles.postOn}>Posted on</Text>
+              <Text style={styles.date}>
+                {postDetails.createdon.split(" ")[0]}
+              </Text>
+              <Text style={styles.time}>
+                {postDetails.createdon.split(" ")[1]}
+              </Text>
+            </View>
+            {postDetails.editedon && (
+              <View style={styles.createdOn}>
+                <Text style={styles.editedOn}>Edited on</Text>
+                <Text style={styles.date}>
+                  {postDetails.editedon.split(" ")[0]}
+                </Text>
+                <Text style={styles.time}>
+                  {postDetails.editedon.split(" ")[1]}
+                </Text>
+              </View>
+            )}
+          </ScrollView>
+        </>
+      )}
     </View>
   )
 }
@@ -98,4 +129,12 @@ const styles = StyleSheet.create({
   },
 })
 
-export default SinglePostScreen
+const mapStateToProps = ({singlePost}) => {
+  return {singlePost}
+}
+
+const mapDispatchToProps = {
+  singlePostsAction,
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SinglePostScreen)
