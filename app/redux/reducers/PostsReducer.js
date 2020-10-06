@@ -3,8 +3,6 @@ import {
   GET_POSTS_SUCCESS,
   DELETE_POST_ERROR,
   DELETE_POST_SUCCESS,
-  GET_SINGLE_POST_SUCCESS,
-  GET_SINGLE_POST_ERROR,
 } from "../actions/actionTypes"
 
 export default (state = {data: null, error: null}, action) => {
@@ -13,10 +11,6 @@ export default (state = {data: null, error: null}, action) => {
       return {...state, data: action.payload}
     case GET_POSTS_ERROR:
       return {...state, error: action.payload}
-    // case GET_SINGLE_POST_SUCCESS:
-    //   return {...state, data: action.payload}
-    // case GET_SINGLE_POST_ERROR:
-    //   return {...state, error: action.payload}
     case DELETE_POST_SUCCESS:
       return {...state, data: action.payload}
     case DELETE_POST_ERROR:

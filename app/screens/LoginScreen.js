@@ -19,7 +19,7 @@ const validationSchema = Yup.object().shape({
     .required()
     .min(7)
     .matches(
-      /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{7,}$/,
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[#$^+=!*()@%&]).{7,20}$/,
       "include uppercase, lowercase, number and special character"
     )
     .label("Password"),
